@@ -1,0 +1,7 @@
+{
+    "C_Cpp.clang_format_fallbackStyle": "LLVM",
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "types.h": "c"
+    }
+}
