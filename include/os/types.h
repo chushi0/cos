@@ -19,8 +19,15 @@ typedef unsigned short uint16;
 typedef unsigned int uint32;
 typedef unsigned long long uint64;
 
+typedef uint32 _size;
+
 #define _packed __attribute__((packed))
 
 #define _debugger __asm("xchg %bx, %bx")
+
+typedef char *va_list;
+#define va_start(ap, v) (ap = (va_list)&v + sizeof(char *))
+#define va_arg(ap, t) (*(t *)((ap += sizeof(char *)) - sizeof(char *)))
+#define va_end(ap) (ap = (va_list)0)
 
 #endif // !COS_TYPES_H

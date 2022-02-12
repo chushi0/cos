@@ -30,9 +30,10 @@ $(BUILD)/%.o: $(SRC)/%.c
 $(BUILD)/kernel.bin: \
 	$(BUILD)/kernel/start.o \
 	$(BUILD)/kernel/main.o \
-	$(BUILD)/kernel/print.o \
+	$(BUILD)/kernel/console.o \
 	$(BUILD)/kernel/mem.o \
 	$(BUILD)/kernel/io.o \
+	$(BUILD)/kernel/string.o \
 	$(BUILD)/kernel/lock_asm.o \
 	$(BUILD)/kernel/lock.o
 	$(shell mkdir -p $(dir $@))

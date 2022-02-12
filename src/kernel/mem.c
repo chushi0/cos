@@ -46,7 +46,7 @@ static void link_free_memory() {
 	}
 }
 
-bool kernel_memory_init() {
+bool memory_init() {
 	// loader 进行的内存检测数据
 	char *ptr = *(char **)0x1010;
 	uint16 count = *(uint16 *)ptr;
@@ -95,24 +95,42 @@ void free(void *ptr) {
 	free_memory_linkedlist_size++;
 }
 
-void memcpy(void *dst, void *src, uint32 size) {
-	char *cdst = dst;
-	char *csrc = src;
+void memcpy(char *dst, char *src, _size size) {
 	if (dst > src) {
-		cdst += size;
-		csrc += size;
+		dst += size;
+		src += size;
 		while (size > 0) {
-			*cdst = *csrc;
+			*dst = *src;
 			size--;
-			csrc--;
-			cdst--;
+			src--;
+			dst--;
 		}
 	} else {
 		while (size > 0) {
-			*cdst = *csrc;
+			*dst = *src;
 			size--;
-			csrc++;
-			cdst++;
+			src++;
+			dst++;
+		}
+	}
+}
+
+void memset(char *dst, char ch, _size size) {
+	char *end = dst + size;
+	while (dst != end) {
+		*dst = ch;
+		dst++;
+	}
+}
+
+void memory_info(_size *total, _size *usable, _size *free) {
+	*total = 0;
+	*usable = 0;
+	*free = free_memory_linkedlist_size << 10;
+	for (uint16 i = 0; i < memory_desc_count; i++) {
+		*total += memory_desc[i].Length;
+		if (memory_desc[i].Type == 1) {
+			*usable += memory_desc[i].Length;
 		}
 	}
 }

@@ -1,41 +1,25 @@
-#include <os/lock.h>
+#include <os/console.h>
 #include <os/os.h>
 #include <os/types.h>
 
+static void print_memory_info() {
+	_size total, usable, free;
+	memory_info(&total, &usable, &free);
+	console_printf(" - Total: %dK\n - Usable: %dK\n - Free: %dK\n", total >> 10,
+				   usable >> 10, free >> 10);
+}
+
 void kernel_main() {
 	bool res;
-	kernel_print("Hello COS!\nKernel loaded, initializing...\n");
-	res = kernel_memory_init();
+	console_init();
+	console_print("Hello COS!\nKernel loaded, initializing...\n");
+	res = memory_init();
 	if (!res) {
-		kernel_print("Memory Initialize Error!\n");
+		console_print("Detect Memory Error!\n");
 		return;
 	}
-
-	Lock l = {0};
-	res = tryLock(&l);
-	if (res == 0) {
-		kernel_print("Enter lock\n");
-	} else {
-		kernel_print("no enter Lock\n");
-	}
-	res = tryLock(&l);
-	if (res == 0) {
-		kernel_print("Enter lock\n");
-	} else {
-		kernel_print("no enter Lock\n");
-	}
-	unlock(&l);
-	res = tryLock(&l);
-	if (res == 0) {
-		kernel_print("Enter lock\n");
-	} else {
-		kernel_print("no enter Lock\n");
-	}
-	unlock(&l);
-	lock(&l);
-	kernel_print("Enter lock\n");
-	lock(&l);
-	kernel_print("Enter lock\n");
+	console_print("Detect Memory Success:\n");
+	print_memory_info();
 
 	return;
 }

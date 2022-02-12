@@ -2,6 +2,10 @@
     "C_Cpp.clang_format_fallbackStyle": "LLVM",
     "editor.formatOnSave": true,
     "files.associations": {
-        "types.h": "c"
+        "types.h": "c",
+        "mem.h": "c",
+        "console.h": "c",
+        "stdarg.h": "c",
+        "os.h": "c"
     }
 }
